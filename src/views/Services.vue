@@ -1,24 +1,32 @@
 <template>
-  <div>
-    <div>
-      <myNavbar />
-    </div>
-   <div style="padding: 20px 0;">
-    <h1 class="page-title">Hizmetlerim</h1>
+  <div class="page-wrapper">
+    <myNavbar />
+
     <div class="services-container">
-      <div class="service-card" v-for="(service, index) in services" :key="index">
-        <img :src="service.image" alt="service.title" class="service-image" />
-        <div class="service-text">
-          <h2>{{ service.title }}</h2>
-          <p>{{ service.description }}</p>
+      <div class="header-section fade-in">
+        <h1 class="page-title">Hizmetlerim</h1>
+        <p class="page-subtitle">Sizin için sunduğum profesyonel dijital çözümler.</p>
+      </div>
+      
+      <div class="services-grid">
+        <div class="service-card slide-up" v-for="(service, index) in services" :key="index" :style="{ animationDelay: `${index * 0.15}s` }">
+          <div class="service-image-wrapper">
+            <img :src="service.image" :alt="service.title" class="service-image" />
+            <div class="image-overlay"></div>
+          </div>
+          <div class="service-text">
+            <h2>{{ service.title }}</h2>
+            <p>{{ service.description }}</p>
+            <button class="learn-more-btn">
+              İncele <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div>
+
     <myFooter/>
   </div>
-</div>
 </template>
 
 <script>
@@ -60,74 +68,162 @@ export default {
 </script>
 
 <style scoped>
-
-.page-title {
-  text-align: center;
-  margin: 40px 0;
-  font-size: 2.5em; 
-  color: #333;
-  font-weight: bold;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+.page-wrapper {
+  background-color: var(--bg-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .services-container {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 100px 20px 60px;
+  flex: 1;
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.page-title {
+  font-size: 3rem; 
+  color: var(--text-main);
+  font-weight: 800;
+  margin-bottom: 15px;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.page-subtitle {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 40px;
 }
 
 .service-card {
-  display: flex; 
-  gap: 20px; 
-  border: none; 
-  border-radius: 15px; 
-  padding: 20px;
-  background-color: #ffffff; 
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-lg); 
+  border: var(--border-glass);
   overflow: hidden; 
-  transition: transform 0.3s ease, box-shadow 0.3s ease; 
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
 }
 
 .service-card:hover {
-  transform: translateY(-5px); 
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); 
+  transform: translateY(-10px); 
+  box-shadow: var(--shadow-md), var(--shadow-glow); 
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+.service-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
 }
 
 .service-image {
-  width: 180px; 
-  height: auto; 
-  border-radius: 10px; 
+  width: 100%; 
+  height: 100%;
   object-fit: cover; 
+  transition: transform 0.6s ease;
+}
+
+.service-card:hover .service-image {
+  transform: scale(1.1);
+}
+
+.image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--bg-secondary) 0%, transparent 100%);
 }
 
 .service-text {
+  padding: 30px;
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center; 
 }
 
-.service-card h2 {
-  margin: 0 0 10px;
-  color: #007bff; 
-  font-weight: bold; 
+.service-text h2 {
+  margin: 0 0 15px;
+  color: var(--text-main); 
+  font-size: 1.6rem;
+  font-weight: 700; 
 }
 
-.service-card p {
-  margin: 0;
-  color: #555; 
+.service-text p {
+  margin: 0 0 25px;
+  color: var(--text-muted); 
+  line-height: 1.6;
+  flex: 1;
+}
+
+.learn-more-btn {
+  background: transparent;
+  color: var(--accent-primary);
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 0;
+  transition: var(--transition);
+  align-self: flex-start;
+}
+
+.learn-more-btn i {
+  transition: transform 0.3s ease;
+}
+
+.learn-more-btn:hover {
+  color: var(--text-main);
+}
+
+.learn-more-btn:hover i {
+  transform: translateX(5px);
+}
+
+/* Animations */
+.fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.slide-up {
+  opacity: 0;
+  animation: slideUp 0.6s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 600px) {
-  .service-card {
-    flex-direction: column; 
-    align-items: center; 
+  .page-title {
+    font-size: 2.5rem;
   }
-
-  .service-image {
-    width: 100%; 
-    max-width: 300px; 
+  
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
   }
 }
 </style>

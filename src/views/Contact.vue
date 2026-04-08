@@ -1,32 +1,43 @@
 <template>
-  <div class="contact-page">
+  <div class="page-wrapper">
     <myNavbar />
     
-    <div class="contact-form-container">
-      <h2>İletişim</h2>
-      <form @submit.prevent="handleSubmit" class="contact-form">
-        <div class="form-group">
-          <label for="name">Adınız:</label>
-          <input type="text" v-model="name" required placeholder="Adınızı girin" />
+    <div class="contact-container">
+      <div class="contact-header fade-in">
+        <h2 class="page-title">İletişime Geçin</h2>
+        <p class="page-subtitle">Projeleriniz ve işbirlikleri için mesaj bırakabilirsiniz.</p>
+      </div>
+
+      <div class="contact-form-card fade-in">
+        <form @submit.prevent="handleSubmit" class="contact-form">
+          <div class="input-group">
+            <input type="text" id="name" v-model="name" required placeholder=" " />
+            <label for="name">Adınız</label>
+          </div>
+          
+          <div class="input-group">
+            <input type="email" id="email" v-model="email" required placeholder=" " />
+            <label for="email">E-Posta</label>
+          </div>
+          
+          <div class="input-group textarea-group">
+            <textarea id="message" v-model="message" required placeholder=" "></textarea>
+            <label for="message">Mesajınız</label>
+          </div>
+          
+          <button type="submit" class="submit-button" :class="{ 'submitted': submitted }">
+            <span v-if="!submitted">Mesaj Gönder <i class="fas fa-paper-plane"></i></span>
+            <span v-else>Gönderildi <i class="fas fa-check"></i></span>
+          </button>
+        </form>
+        
+        <div v-if="submitted" class="submission-confirmation fade-in">
+          Teşekkürler! Mesajınız en kısa sürede değerlendirilecek.
         </div>
-        <div class="form-group">
-          <label for="email">E-posta:</label>
-          <input type="email" v-model="email" required placeholder="E-posta adresinizi girin" />
-        </div>
-        <div class="form-group">
-          <label for="message">Mesajınız:</label>
-          <textarea v-model="message" required placeholder="Mesajınızı yazın"></textarea>
-        </div>
-        <button type="submit" class="submit-button">Gönder</button>
-      </form>
-      <div v-if="submitted" class="submission-confirmation">
-        Teşekkür ederiz! Mesajınız başarıyla gönderildi.
       </div>
     </div>
 
-    <div class="footer">
-      <myFooter />
-    </div>
+    <myFooter />
   </div>
 </template>
 
@@ -57,14 +68,14 @@ export default {
       }
 
       window.Email.send({
-        Host: "smtp.elasticemail.com", 
-        Username: "cakiralitolga22@gmail.com", 
-        Password: "591D9C10390A6DDF382A2631344E29E2C05A", 
-        To: 'cakiralitolga22@gmail.com', 
-        From: "cakiralitolga22@gmail.com", 
+        Host: "", 
+        Username: "", 
+        Password: "", 
+        To: '', 
+        From: "", 
         Subject: `Yeni mesaj - ${this.email}`, 
         Body: `Ad: ${this.name} <br/> E-posta: ${this.email} <br/> Mesaj: ${this.message}`,
-        Port: "587",
+        Port: "",
       })
       .then(
         message => {
@@ -88,95 +99,166 @@ export default {
   },
 };
 </script><style scoped>
-.contact-page {
+.page-wrapper {
+  background-color: var(--bg-primary);
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
   flex-direction: column;
-  min-height: 100vh; 
-  overflow-x: hidden; 
-  padding: 10px;
 }
 
-.contact-form-container {
+.contact-container {
   flex: 1;
-  width: 80%;
-  max-width: 600px;
-  margin: 80px auto;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  padding: 20px 20px 10px; 
-
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 120px 20px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-
-h2 {
-  font-size: 1.8rem; 
-  margin-bottom: 20px;
+.contact-header {
   text-align: center;
-  color: #333;
+  margin-bottom: 40px;
 }
 
-.form-group {
-  margin-bottom: 15px; 
+.page-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+  color: var(--text-main);
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #555;
+.page-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-muted);
 }
 
-input,
-textarea {
-  width: 80%; 
-  padding: 12px; 
-  border: 1px solid #ccc; 
-  border-radius: 5px; 
-  font-size: 1rem; 
-  transition: border-color 0.3s; 
+.contact-form-card {
+  width: 100%;
+  background: var(--bg-secondary);
+  border: var(--border-glass);
+  border-radius: var(--radius-lg);
+  padding: 50px 40px;
+  box-shadow: var(--shadow-md);
 }
 
-input:focus,
-textarea:focus {
-  border-color: #007bff;
-  outline: none; 
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
-textarea {
-  height: 100px; 
-  resize: vertical; 
+.input-group {
+  position: relative;
+}
+
+.input-group input,
+.input-group textarea {
+  width: 100%;
+  padding: 15px 20px;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  color: var(--text-main);
+  font-size: 1rem;
+  font-family: inherit;
+  transition: var(--transition);
+}
+
+.input-group textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.input-group label {
+  position: absolute;
+  left: 20px;
+  top: 15px;
+  color: var(--text-muted);
+  pointer-events: none;
+  transition: var(--transition);
+  font-size: 1rem;
+  background-color: var(--bg-secondary);
+  padding: 0 5px;
+}
+
+/* Floating label effect */
+.input-group input:focus ~ label,
+.input-group input:not(:placeholder-shown) ~ label,
+.input-group textarea:focus ~ label,
+.input-group textarea:not(:placeholder-shown) ~ label {
+  top: -10px;
+  left: 15px;
+  font-size: 0.85rem;
+  color: var(--accent-primary);
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  background-color: rgba(56, 189, 248, 0.05);
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.1);
 }
 
 .submit-button {
-  padding: 12px 20px;
-  background-color: #28a745; 
-  color: white; 
-  border: none; 
-  border-radius: 5px; 
-  cursor: pointer; 
-  font-size: 1rem; 
-  transition: background-color 0.3s; 
-  width: 100%; 
+  padding: 16px 30px;
+  background: var(--accent-gradient);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 .submit-button:hover {
-  background-color: #218838;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
+}
+
+.submit-button.submitted {
+  background: #10b981; /* Success green */
+  pointer-events: none;
 }
 
 .submission-confirmation {
-  margin-top: 20px; 
-  color: green; 
-  text-align: center; 
-  font-weight: bold; 
+  margin-top: 25px;
+  padding: 15px;
+  background-color: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-weight: 500;
 }
 
-.footer {
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  width: 100%;
-  margin-top: 10px; 
+.fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+  .contact-form-card {
+    padding: 30px 20px;
+  }
+  
+  .page-title {
+    font-size: 2.5rem;
+  }
 }
 </style>

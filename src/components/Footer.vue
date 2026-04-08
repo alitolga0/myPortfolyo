@@ -29,49 +29,72 @@
   </script>
   
   <style scoped>
-  .footer {
-    background-color: #34495e;
-    color: #fff;
-    padding: 20px 0;
-    text-align: center;
-  }
-  
-  .footer-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-  }
-  
-  .footer-logo h3 {
-    font-size: 1.5rem;
-    color: #b9803a;
-    margin: 0;
-  }
-  
-  .footer-socials {
-    display: flex;
-    gap: 15px;
-  }
-  
-  .social-link {
-    color: #fff;
-    font-size: 1.5rem;
-    transition: color 0.3s ease;
-  }
-  
-  .social-link:hover {
-    color: #b9803a;
-  }
-  
-  .footer-bottom {
-    margin-top: 10px;
-  }
-  
-  .footer-bottom p {
-    font-size: 0.9rem;
-    color: #ccc;
-  }
-  </style>
+.footer {
+  background-color: var(--bg-secondary);
+  color: var(--text-main);
+  padding: 40px 0 20px;
+  text-align: center;
+  border-top: var(--border-glass);
+  margin-top: auto;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.footer-logo h3 {
+  font-size: 1.8rem;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+  font-weight: 700;
+}
+
+.footer-socials {
+  display: flex;
+  gap: 20px;
+}
+
+.social-link {
+  color: var(--text-muted);
+  font-size: 1.8rem;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  background-color: rgba(255, 255, 255, 0.03);
+  border: var(--border-glass);
+}
+
+.social-link:hover {
+  color: var(--text-main);
+  background: var(--accent-gradient);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-3px);
+  border-color: transparent;
+}
+
+.footer-bottom {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: var(--border-glass);
+  width: 80%;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.footer-bottom p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+</style>
   

@@ -1,30 +1,29 @@
 <template>
-  <div>
-    <div>
-      <myNavbar />
-    </div>
+  <div class="page-wrapper">
+    <myNavbar />
     
-    <div class="background-section">
-      <h1>Software Developer</h1>
-      <h2>Ali Tolga Çakir</h2>
-    </div>
+    <section class="hero-section">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1 class="bounce-in">Software Developer</h1>
+        <h2 class="slide-up">Ali Tolga Çakir</h2>
+      </div>
+    </section>
 
-    <div>
-      <section class="about-me">
-        <h2>Hakkımda</h2>
-        <p>
+    <div class="container">
+      <section class="about-me fade-in">
+        <h2 class="section-title">Hakkımda</h2>
+        <p class="about-text">
           Merhaba! Ben Ali Tolga Çakir, yazılım geliştirme konusunda tutkulu bir geliştiriciyim.
-           Modern web ve mobil uygulama geliştirme üzerine deneyimim var. 
-           Projelerimde her zaman kullanıcı deneyimini öncelikli hedefim olarak görüyorum. Sürekli öğrenmeyi ve yenilikleri takip
-            etmeyi seviyorum. Amacım, kullanıcıların hayatını kolaylaştıran ve ilham veren çözümler üretmek.
-
-
+          Modern web ve mobil uygulama geliştirme üzerine deneyimim var. 
+          Projelerimde her zaman kullanıcı deneyimini öncelikli hedefim olarak görüyorum. Sürekli öğrenmeyi ve yenilikleri takip
+          etmeyi seviyorum. Amacım, kullanıcıların hayatını kolaylaştıran ve ilham veren çözümler üretmek.
         </p>
       </section>
 
-      <section class="featured-projects">
-        <h2>Öne Çıkan Projeler</h2>
-        <div class="project-list">
+      <section class="featured-projects fade-in">
+        <h2 class="section-title">Öne Çıkan Projeler</h2>
+        <div class="project-grid">
           <a
             v-for="project in projects"
             :key="project.id"
@@ -32,33 +31,36 @@
             target="_blank"
             class="project-card"
           >
-            <div class="image-container">
+            <div class="image-wrapper">
               <img :src="project.image" alt="Project Image" />
-              <h3 class="project-title">{{ project.title }}</h3>
+              <div class="project-overlay">
+                <h3 class="project-title">{{ project.title }}</h3>
+                <span class="project-link-icon"><i class="fas fa-external-link-alt"></i></span>
+              </div>
             </div>
           </a>
         </div>
       </section>
-    </div>
    
-    <div>
-      <section class="services">
-        <h2>Uzmanlık Alanlarım</h2>
-        <div class="services-list">
+      <section class="services fade-in">
+        <h2 class="section-title">Uzmanlık Alanlarım</h2>
+        <div class="services-grid">
           <div v-for="service in services" :key="service.id" class="service-card">
-            <i :class="service.icon" class="service-icon"></i>
+            <div class="icon-wrapper">
+              <i :class="service.icon" class="service-icon"></i>
+            </div>
             <h3>{{ service.name }}</h3>
             <p>{{ service.description }}</p>
           </div>
         </div>
       </section>
+
+      <div class="languages-wrapper fade-in">
+        <myLanguages/>
+      </div>
     </div>
-<div>
-  <myLanguages/>
-</div>
-    <div>
-      <myFooter/>
-    </div>
+
+    <myFooter/>
   </div>
 </template>
 
@@ -92,169 +94,311 @@ export default {
 </script>
 
 <style scoped>
-.background-section {
+.page-wrapper {
+  background-color: var(--bg-primary);
+  min-height: 100vh;
+}
+
+.hero-section {
+  position: relative;
+  height: 70vh;
+  min-height: 500px;
   background-image: url('../assets/kapak.jpeg'); 
   background-size: cover;
   background-position: center; 
-  height: 60vh;
+  background-attachment: fixed;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  color: #b9803a;
+  justify-content: center;
   text-align: center;
-  padding: 20px;
-  max-width: 100%; 
-  overflow: hidden; 
-  
+  overflow: hidden;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.95));
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 20px;
+}
+
+.hero-content h1 {
+  font-size: clamp(3rem, 5vw, 4.5rem);
+  font-weight: 800;
+  margin-bottom: 15px;
+  color: var(--text-main);
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-content h2 {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 2px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 40px;
+  text-align: center;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: var(--accent-gradient);
+  border-radius: var(--radius-full);
 }
 
 .about-me {
-  background-color: #f4f4f4; 
-  padding: 25px; 
-  border-radius: 12px; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-  margin: 30px 10px; 
-  text-align: center; 
-  max-width: 100%; 
+  background-color: var(--bg-secondary);
+  padding: 50px 40px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 80px;
+  border: var(--border-glass);
 }
 
-.about-me h2 {
-  font-size: 2rem; 
-  color: #b9803a; 
-  margin-bottom: 10px; 
-}
-
-.about-me p {
-  font-size: 2rem;
-  color: #333; 
-  line-height: 1.5;
-}
-
-h1 {
-  font-size: 3rem;
-  margin: 0;
-}
-
-h2 {
-  font-size: 2rem;
+.about-text {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .featured-projects {
-  background-color: #f9f9f9;
-  padding: 20px;
-  border-radius: 8px;
+  margin-bottom: 80px;
 }
 
-.project-list {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
 }
 
 .project-card {
-  position: relative;
-  border-radius: 8px;
-  width: 250px;
-  height: 350px;
-  text-align: center;
+  display: block;
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  transition: transform 0.3s;
-  text-decoration: none;
-  max-width: 100%; 
-}
-
-.image-container {
   position: relative;
-  height: 100%;
-}
-
-.project-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 8px 8px 0 0;
-}
-
-.project-title {
-  position: absolute;
-  bottom: 10px;
-  left: 0;
-  right: 0;
-  text-align: center;
-  color: white;
-  background: rgba(0, 0, 0, 0.7);
-  padding: 5px;
+  background-color: var(--bg-secondary);
+  border: var(--border-glass);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
 }
 
 .project-card:hover {
-  transform: scale(1.05);
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-md), var(--shadow-glow);
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+.image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.project-card:hover .image-wrapper img {
+  transform: scale(1.1);
+}
+
+.project-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.2) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 25px;
+  opacity: 0.9;
+  transition: var(--transition);
+}
+
+.project-card:hover .project-overlay {
+  opacity: 1;
+}
+
+.project-title {
+  color: var(--text-main);
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+  transform: translateY(10px);
+  transition: var(--transition);
+}
+
+.project-card:hover .project-title {
+  transform: translateY(0);
+}
+
+.project-link-icon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: var(--text-main);
+  background: var(--accent-gradient);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: var(--transition);
+}
+
+.project-card:hover .project-link-icon {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .services {
-  margin-top: 40px;
-  padding: 20px;
-  background-color: #f4f4f4;
-  border-radius: 12px;
-  text-align: center;
-  max-width: 100%; 
+  margin-bottom: 80px;
 }
 
-.services-list {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
 }
 
 .service-card {
-  background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 250px;
-  padding: 20px;
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: 40px 30px;
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  max-width: 100%; /* Prevents overflow */
+  border: var(--border-glass);
+  transition: var(--transition);
 }
 
 .service-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-md), var(--shadow-glow);
+  border-color: rgba(56, 189, 248, 0.5);
+}
+
+.icon-wrapper {
+  width: 80px;
+  height: 80px;
+  background: rgba(56, 189, 248, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  transition: var(--transition);
+}
+
+.service-card:hover .icon-wrapper {
+  background: var(--accent-gradient);
+  transform: scale(1.1) rotate(5deg);
 }
 
 .service-icon {
-  font-size: 40px;
-  color: #b9803a;
-  margin-bottom: 15px;
+  font-size: 32px;
+  color: var(--accent-primary);
+  transition: var(--transition);
+}
+
+.service-card:hover .service-icon {
+  color: var(--text-main);
 }
 
 .service-card h3 {
-  font-size: 1.5rem;
-  color: #333;
-  margin-bottom: 10px;
+  font-size: 1.4rem;
+  color: var(--text-main);
+  margin-bottom: 15px;
+  font-weight: 600;
 }
 
 .service-card p {
+  color: var(--text-muted);
   font-size: 1rem;
-  color: #666;
+  line-height: 1.6;
+}
+
+.languages-wrapper {
+  margin-bottom: 40px;
+}
+
+/* Animations */
+@keyframes bounceIn {
+  0% { opacity: 0; transform: scale(0.9); }
+  60% { opacity: 1; transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.bounce-in {
+  animation: bounceIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.slide-up {
+  animation: slideUp 0.8s ease-out forwards;
+  animation-delay: 0.3s;
+  opacity: 0;
+}
+
+.fade-in {
+  animation: fadeIn 1s ease-out forwards;
 }
 
 @media (max-width: 768px) {
-  .services-list {
-    flex-direction: column;
-    align-items: center; 
+  .hero-section {
+    height: 50vh;
   }
-
-  .service-card {
-    width: 90%; 
-    margin: 10px 0; 
+  
+  .about-me {
+    padding: 30px 20px;
   }
-
-  .project-card {
-    width: 90%; 
-    margin: 10px 0; 
+  
+  .section-title {
+    font-size: 2rem;
   }
 }
 </style>

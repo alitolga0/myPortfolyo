@@ -54,31 +54,48 @@ export default {
 </script>
 <style scoped>
 nav {
-  background-color: #34495e;
-  padding: 10px 20px;
+  background-color: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 15px 30px;
   position: fixed; 
   top: 0; 
   left: 0; 
   right: 0; 
   z-index: 1000; 
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); 
+  border-bottom: var(--border-glass);
+  box-shadow: var(--shadow-sm); 
+  transition: var(--transition);
 }
+
 .navbar-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .menu-toggle {
   display: none; 
   flex-direction: column;
   cursor: pointer;
+  z-index: 1100;
 }
 
 .logo {
-  color: white;
-  font-size: 24px;
-  font-weight: bold;
+  color: var(--text-main);
+  font-size: 28px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo i {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .navbar {
@@ -90,34 +107,36 @@ nav {
 }
 
 .nav-item {
-  margin: 0 15px;
+  margin: 0 10px;
 }
 
 .nav-link {
-  color: white;
+  color: var(--text-muted);
   text-decoration: none;
-  padding: 10px 15px;
-  border-radius: 80%;
-  transition: background-color 0.3s, transform 0.3s;
-  font-size: 18px;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  transition: var(--transition);
+  font-size: 16px;
+  font-weight: 500;
 }
 
-.nav-link:hover {
-  background-color: #2ecc71;
-  color: white;
-  transform: scale(1.2);
+.nav-link:hover, .nav-link.router-link-active {
+  color: var(--text-main);
+  background-color: rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
 .sidebar {
   position: fixed;
   top: 0;
-  right: -250px; 
-  width: 250px;
-  height: 100%;
-  background-color: #34495e;
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5); 
-  transition: right 0.3s ease; 
-  z-index: 100; 
+  right: -300px; 
+  width: 300px;
+  height: 100vh;
+  background-color: var(--bg-secondary);
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5); 
+  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+  z-index: 1050; 
+  padding-top: 80px;
 }
 
 .sidebar.active {
@@ -133,34 +152,41 @@ nav {
 }
 
 .dropdown-item {
+  padding: 10px 20px;
+}
+
+.dropdown-item .nav-link {
+  display: block;
   padding: 15px;
+  border-radius: var(--radius-md);
+  font-size: 18px;
 }
 
 .bar {
-  width: 25px;
+  width: 30px;
   height: 3px;
-  background-color: white;
-  margin: 4px;
-  transition: all 0.3s;
+  background-color: var(--text-main);
+  margin: 6px 0;
+  border-radius: 3px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.bar.active {
-  transform: rotate(45deg);
+.menu-toggle .bar.active:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
 }
 
-.bar.active + .bar {
+.menu-toggle .bar.active:nth-child(2) {
   opacity: 0;
 }
 
-.bar.active + .bar + .bar {
-  transform: rotate(-45deg);
+.menu-toggle .bar.active:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
 }
 
 @media (max-width: 768px) {
   .navbar {
     display: none; 
   }
-
   .menu-toggle {
     display: flex; 
   }
